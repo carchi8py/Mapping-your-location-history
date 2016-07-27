@@ -1,20 +1,29 @@
 import exifread
 import os
 import sys
+from decimal import *
 
+    
 def convert_to_degree(number):
+    """
+    Takes a Degree in the Degree min second format and covert it to a decimal
+    """
     #convert from IfdTag to a string so we can parse it
     number = str(number)
     #Remove [] from the ends
     number = number[1:-1]
-    d, m, s = number.split(',')
-    s_t, s_b = s.split('/')
-    s = float(s_t) / float(s_b)
-    s = str(s)
-    dd = float(d) + float(m)/60 + float(s)/3600
+    degree, min, sec = number.split(',')
+    s_t, s_b = sec.split('/')
+    sec = (float(s_t) / float(s_b)) / 3600
+    dd = Decimal(degree) + Decimal(min)/60 + Decimal(sec)
+    #Limit us to 4 places after the point
+    dd = round(dd, 4)
     return dd
 
 def read_image(image, full_path):
+    """
+    Read an Image, and get the EXIF data that include the GPS data
+    """
     with open(os.path.join(full_path, image), 'rb') as f:
         if image.find('JPG') == -1:
             return
@@ -35,9 +44,11 @@ def read_image(image, full_path):
         except:
             return
     
-def create_geoJson(locations):
-    data_file = os.path.join("/Users/carchi/Documents/workspace/Where i have been", 'dataset.js')
-    with open(data_file, 'w') as write_file:
+def create_geoJson(locations, photo_data):
+    """
+    Creates a GeoJson files that leaflet can read
+    """
+    with open(photo_data, 'w') as write_file:
         write_file.write("var mydata = {\n")
         write_file.write('    "features":[\n')
         for location in locations:
@@ -52,42 +63,40 @@ def create_geoJson(locations):
             write_file.write('    },\n')
         write_file.write('    ]')
         write_file.write(',"type":"FeatureCollection"};')
-            
-    
-        
-locations = {}
 
-iphoto_location = "/Users/carchi/Pictures/Photos Library.photoslibrary/"
-masters = "Masters"
-start_location = os.getcwd()
-os.chdir(iphoto_location)
-years = os.listdir(os.path.join(os.getcwd(), masters))
-for year in years:
-    months = os.listdir(os.path.join(os.getcwd(), masters, year))
-    for month in months:
-        full_path = os.path.join(os.getcwd(), masters, year, month)
-        days = os.listdir(full_path)
-        for day in days:
-            full_path = (os.path.join(os.getcwd(), masters, year, month, day))
-            times = os.listdir(full_path)
-            for time in times:
-                full_path = os.path.join(os.getcwd(), masters, year, month, day, time)
-                images = os.listdir(full_path)
-                total_images = len(images)
-                i = 0
-                for image in images:
-                    if not i%2000:
-                        print str(i) + ' of ' + str(total_images) + " left"
-                        print locations
-                        create_geoJson(locations)
-                    location = read_image(image, full_path)
-                    if not location:
+def get_photos(iphoto_location, photo_data):
+    """
+    Finds all photos in Iphoto or Photo libaray
+    """
+    locations = {}
+    masters = "Masters"
+    start_location = os.getcwd()
+    os.chdir(iphoto_location)
+    years = os.listdir(os.path.join(os.getcwd(), masters))
+    for year in years:
+        months = os.listdir(os.path.join(os.getcwd(), masters, year))
+        for month in months:
+            full_path = os.path.join(os.getcwd(), masters, year, month)
+            days = os.listdir(full_path)
+            for day in days:
+                full_path = (os.path.join(os.getcwd(), masters, year, month, day))
+                times = os.listdir(full_path)
+                for time in times:
+                    full_path = os.path.join(os.getcwd(), masters, year, month, day, time)
+                    images = os.listdir(full_path)
+                    total_images = len(images)
+                    i = 0
+                    for image in images:
+                        if not i%2000:
+                            print str(i) + ' of ' + str(total_images) + " left"
+                            print locations
+                            create_geoJson(locations, photo_data)
+                        location = read_image(image, full_path)
+                        if not location:
+                            i += 1
+                            continue
+                        if location in locations:
+                            locations[location] += 1
+                        else:
+                            locations[location] = 1
                         i += 1
-                        continue
-                    if location in locations:
-                        locations[location] += 1
-                    else:
-                        locations[location] = 1
-                    i += 1
-                print locations
-sys.exit(1)
