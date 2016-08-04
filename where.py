@@ -24,7 +24,7 @@ def parse_options():
                        default = os.getcwd(),
                        help="Location to save data, default is CWD")
     parser.add_argument('-f', '--foursquare', dest="foursquare",
-                        default="C2VVPGGTTRXZ1MFODZXTQRETCQFDBVU2E2S1GKRQEXIQJMMO",
+                        default="",
                         help="Your fourquare oauth token")
     return parser.parse_args()
 
