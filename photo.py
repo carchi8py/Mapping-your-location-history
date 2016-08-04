@@ -44,12 +44,12 @@ def read_image(image, full_path):
         except:
             return
     
-def create_geoJson(locations, photo_data):
+def create_geoJson(locations, photo_data, var_name="mydata"):
     """
     Creates a GeoJson files that leaflet can read
     """
     with open(photo_data, 'w') as write_file:
-        write_file.write("var mydata = {\n")
+        write_file.write("var " + var_name + " = {\n")
         write_file.write('    "features":[\n')
         for location in locations:
             write_file.write('    {\n')
