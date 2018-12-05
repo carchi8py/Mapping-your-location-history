@@ -74,6 +74,9 @@ def get_photos(iphoto_location, photo_data):
     os.chdir(iphoto_location)
     years = os.listdir(os.path.join(os.getcwd(), masters))
     for year in years:
+        if year != "2017":
+            continue
+        print year
         months = os.listdir(os.path.join(os.getcwd(), masters, year))
         for month in months:
             full_path = os.path.join(os.getcwd(), masters, year, month)
@@ -89,14 +92,16 @@ def get_photos(iphoto_location, photo_data):
                     for image in images:
                         if not i%2000:
                             print str(i) + ' of ' + str(total_images) + " left"
-                            print locations
-                            create_geoJson(locations, photo_data)
+                            #print locations
+                            #create_geoJson(locations, photo_data)
                         location = read_image(image, full_path)
                         if not location:
                             i += 1
                             continue
+                        print location
                         if location in locations:
                             locations[location] += 1
                         else:
                             locations[location] = 1
                         i += 1
+                        create_geoJson(locations, photo_data)
