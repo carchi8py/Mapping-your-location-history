@@ -17,9 +17,11 @@
         }
         </style>
         
-        <script src="photo.js"></script>
-        <script src="foursquare.js"></script>  
-        <script src="google.js"></script>  
+        <script src="IN_VEHICLE.js"></script>
+        <script src="ON_FOOT.js"></script>
+        <script src="STILL.js"></script>
+        <script src="TILTING.js"></script>
+        <script src="UNKNOWN.js"></script>
               
     </head>
     </body>
@@ -37,7 +39,7 @@
             // specify what the circle markers should look like
             var markerStyles = {
                 radius: 6,
-                fillColor: '#0033cc', fillOpacity: 0.5,
+                fillColor: '#1A5276', fillOpacity: 0.5,
                 color: '#333333', opacity: 0.7, weight: 1
             };
             
@@ -53,12 +55,33 @@
             };
             
             // create the point data layer and add to map
-            var pointsLayer = L.geoJson(mydata, overlayOptions); 
+            var pointsLayer = L.geoJson(mydata0, overlayOptions);
             map.addLayer(pointsLayer);
+
+            var markerStyles1 = {
+                radius: 6,
+                fillColor: '#21618C', fillOpacity: 0.5,
+                color: '#333333', opacity: 0.7, weight: 1
+            };
+
+            // specify how to load the individual features
+            var overlayOptions1 = {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.desc + '<br />' + feature.properties.year);
+                    layer.on('click', function (e) {this.openPopup();});
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, markerStyles1);
+                }
+            };
+
+            // create the point data layer and add to map
+            var pointsLayer1 = L.geoJson(mydata1, overlayOptions1);
+            map.addLayer(pointsLayer1);
 
             var markerStyles2 = {
                 radius: 6,
-                fillColor: '#4edd06', fillOpacity: 0.5,
+                fillColor: '#117864', fillOpacity: 0.5,
                 color: '#333333', opacity: 0.7, weight: 1
             };
             
@@ -80,7 +103,7 @@
          
             var markerStyles3 = {
                 radius: 6,
-                fillColor: '#dd0606', fillOpacity: 0.5,
+                fillColor: '#0E6655', fillOpacity: 0.5,
                 color: '#333333', opacity: 0.7, weight: 1
             };
             
@@ -96,8 +119,50 @@
             };
             
             // create the point data layer and add to map
-            var pointsLayer3 = L.geoJson(mydata3, overlayOptions3); 
-            map.addLayer(pointsLayer3);  
+            var pointsLayer3 = L.geoJson(mydata3, overlayOptions3);
+            map.addLayer(pointsLayer3);
+
+            var markerStyles4 = {
+                radius: 6,
+                fillColor: '#BB8FCE', fillOpacity: 0.5,
+                color: '#333333', opacity: 0.7, weight: 1
+            };
+
+            // specify how to load the individual features
+            var overlayOptions4 = {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.desc + '<br />' + feature.properties.year);
+                    layer.on('click', function (e) {this.openPopup();});
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, markerStyles4);
+                }
+            };
+
+            // create the point data layer and add to map
+            var pointsLayer4 = L.geoJson(mydata4, overlayOptions4);
+            map.addLayer(pointsLayer4);
+
+            var markerStyles5 = {
+                radius: 6,
+                fillColor: '#196F3D', fillOpacity: 0.5,
+                color: '#333333', opacity: 0.7, weight: 1
+            };
+
+            // specify how to load the individual features
+            var overlayOptions5 = {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.desc + '<br />' + feature.properties.year);
+                    layer.on('click', function (e) {this.openPopup();});
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, markerStyles4);
+                }
+            };
+
+            // create the point data layer and add to map
+            var pointsLayer5 = L.geoJson(mydata5, overlayOptions5);
+            map.addLayer(pointsLayer5);
          </script>
     </body>
 </html>
