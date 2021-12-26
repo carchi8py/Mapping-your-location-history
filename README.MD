@@ -21,4 +21,4 @@ python3 where.py --google /path/to/Location History.json
 ```
 
 Once the script has run open map.html to see a map of your location history.
-<img src="map1.jpg" alt="map" width="600" height="400">
+<img src="map1.jpg" alt="map">
