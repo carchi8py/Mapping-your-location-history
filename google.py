@@ -23,7 +23,6 @@ def get_location_history(data_file):
                 locations[activity] = {location_str: 1}
     count = 0
     for each in locations:
-        print(each)
         create_geoJson(locations[each], each + '.js', "mydata" + str(count))
         count += 1
 
