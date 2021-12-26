@@ -22,6 +22,7 @@
         <script src="STILL.js"></script>
         <script src="TILTING.js"></script>
         <script src="UNKNOWN.js"></script>
+        <script src="photo.js"></script>
               
     </head>
     </body>
@@ -143,14 +144,14 @@
             var pointsLayer4 = L.geoJson(mydata4, overlayOptions4);
             map.addLayer(pointsLayer4);
 
-            var markerStyles5 = {
+            var markerStyles6 = {
                 radius: 6,
-                fillColor: '#196F3D', fillOpacity: 0.5,
+                fillColor: '#CB4335', fillOpacity: 0.5,
                 color: '#333333', opacity: 0.7, weight: 1
             };
 
             // specify how to load the individual features
-            var overlayOptions5 = {
+            var overlayOptions6 = {
                 onEachFeature: function (feature, layer) {
                     layer.bindPopup(feature.properties.desc + '<br />' + feature.properties.year);
                     layer.on('click', function (e) {this.openPopup();});
@@ -161,8 +162,8 @@
             };
 
             // create the point data layer and add to map
-            var pointsLayer5 = L.geoJson(mydata5, overlayOptions5);
-            map.addLayer(pointsLayer5);
+            var pointsLayer6 = L.geoJson(photodata, overlayOptions6);
+            map.addLayer(pointsLayer6);
          </script>
     </body>
 </html>

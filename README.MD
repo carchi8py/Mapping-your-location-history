@@ -1,6 +1,10 @@
 # About
 #Getting Started
 ## Prerequisites
+The following python packages are required
+```buildoutcfg
+pip install exifread
+```
 ### Google Data
 You'll need to get your Google location history manually for this to work. Go to https://takeout.google.com/settings/takeout
 * Deselect everything
