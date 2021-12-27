@@ -1,5 +1,6 @@
 import json
 from decimal import *
+import common
 
 
 def get_location_history(data_file):
@@ -21,10 +22,8 @@ def get_location_history(data_file):
                 locations[activity][location_str] = 1
             else:
                 locations[activity] = {location_str: 1}
-    count = 0
-    for each in locations:
-        create_geoJson(locations[each], each + '.js', "mydata" + str(count))
-        count += 1
+    for count, (each, value) in enumerate(locations.items()):
+        common.create_geoJson(value, each + '.js', "mydata" + str(count))
 
 
 
@@ -41,24 +40,3 @@ def fixLatLon(latLon):
 def round_to_x(number, x):
     number = Decimal(number)
     return round(number, x)
-
-
-def create_geoJson(locations, photo_data, var_name="mydata"):
-    """
-    Creates a GeoJson files that leaflet can read
-    """
-    with open(photo_data, 'w') as write_file:
-        write_file.write("var " + var_name + " = {\n")
-        write_file.write('    "features":[\n')
-        for location in locations:
-            write_file.write('    {\n')
-            write_file.write('        "properties": {},\n')
-            write_file.write('        "type":"Feature",\n')
-            write_file.write('        "geometry": {\n')
-            write_file.write('            "type": "Point",\n')
-            str_location = str(location)
-            write_file.write('            "coordinates": [' + str_location + ']\n')
-            write_file.write('        }\n')
-            write_file.write('    },\n')
-        write_file.write('    ]')
-        write_file.write(',"type":"FeatureCollection"};')
